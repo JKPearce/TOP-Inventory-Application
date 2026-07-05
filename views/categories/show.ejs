@@ -20,6 +20,7 @@
       <a class="button secondary" href="/categories">Back to Categories</a>
       <a class="button secondary" href="/">Home</a>
       <a class="button" href="/items/new">Add Item</a>
+      <a class="button" href="/categories/<%= category.id %>/edit">Edit Category</a>
     </div>
   </header>
 
@@ -57,6 +58,17 @@
         <p class="empty-state">No items found in this category.</p>
       <% } %>
     </section>
+    <section>
+  <h2>Danger Zone</h2>
+
+    <form
+      action="/categories/<%= category.id %>/delete"
+      method="POST"
+      onsubmit="return confirm('Delete this category? This will only work if no items are assigned to it.');"
+    >
+      <button class="danger" type="submit">Delete Category</button>
+    </form>
+  </section>
   </main>
 </body>
 </html>

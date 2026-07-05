@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Category | PC Parts Inventory</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Add Category</h1>
+      <p>Create a new product category.</p>
+
+      <div class="page-actions">
+        <a class="button secondary" href="/categories">Back to Categories</a>
+        <a class="button secondary" href="/">Home</a>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Category Details</h2>
+
+        <form action="/categories/new" method="POST">
+          <label>
+            Name
+            <input
+              type="text"
+              name="name"
+              required
+              maxlength="100"
+              placeholder="Keyboard"
+            />
+          </label>
+
+          <label>
+            Description
+            <textarea
+              name="description"
+              placeholder="Short description of the category"
+            ></textarea>
+          </label>
+
+          <button type="submit">Create Category</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

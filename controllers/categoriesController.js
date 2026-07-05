@@ -30,20 +30,63 @@ function createCategoryGet(req, res) {
   res.render("categories/new");
 }
 
-function createCategoryPost(req, res) {
-  res.send("Create category POST - WIP");
+async function createCategoryPost(req, res) {
+  const category = await categoriesModel.createCategory(req.body);
+
+  res.redirect(`/categories/${category.id}`);
 }
 
-function updateCategoryGet(req, res) {
-  res.render("categories/edit");
+async function updateCategoryGet(req, res) {
+  const { id } = req.params;
+
+  const category = await categoriesModel.getCategoryById(id);
+
+  if (!category) {
+    return res.status(404).send("Category not found");
+  }
+
+  res.render("categories/edit", {
+    category,
+  });
 }
 
-function updateCategoryPost(req, res) {
-  res.send("Update category POST - WIP");
+async function updateCategoryPost(req, res) {
+  const { id } = req.params;
+
+  const category = await categoriesModel.updateCategory(id, req.body);
+
+  if (!category) {
+    return res.status(404).send("Category not found");
+  }
+
+  res.redirect(`/categories/${category.id}`);
 }
 
-function deleteCategoryPost(req, res) {
-  res.send("Delete category POST - WIP");
+async function deleteCategoryPost(req, res) {
+  const { id } = req.params;
+
+  try {
+    const deletedCategory = await categoriesModel.deleteCategory(id);
+
+    if (!deletedCategory) {
+      return res.status(404).send("Category not found");
+    }
+
+    return res.redirect("/categories");
+  } catch (error) {
+    console.log("DELETE CATEGORY ERROR CODE:", error.code);
+    console.log("DELETE CATEGORY ERROR MESSAGE:", error.message);
+
+    if (error.code === "23503" || error.code === "23001") {
+      return res
+        .status(400)
+        .send(
+          "Cannot delete this category because it still has items assigned to it. Delete or move those items first.",
+        );
+    }
+
+    return res.status(500).send("Something went wrong deleting the category.");
+  }
 }
 
 module.exports = {
