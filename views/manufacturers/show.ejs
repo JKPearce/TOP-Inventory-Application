@@ -97,9 +97,13 @@
     <section>
       <h2>Danger Zone</h2>
 
-      <form action="/manufacturers/<%= manufacturer.id %>/delete" method="POST">
-        <button class="danger" type="submit">Delete Manufacturer</button>
-      </form>
+<form
+  action="/manufacturers/<%= manufacturer.id %>/delete"
+  method="POST"
+  onsubmit="return confirm('Delete this manufacturer? This will only work if no items are assigned to it.');"
+>
+  <button class="danger" type="submit">Delete Manufacturer</button>
+</form>
     </section>
   </main>
 </body>

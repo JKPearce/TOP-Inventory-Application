@@ -30,20 +30,68 @@ function createManufacturerGet(req, res) {
   res.render("manufacturers/new");
 }
 
-function createManufacturerPost(req, res) {
-  res.send("Create manufacturer POST - WIP");
+async function createManufacturerPost(req, res) {
+  const manufacturer = await manufacturersModel.createManufacturer(req.body);
+
+  res.redirect(`/manufacturers/${manufacturer.id}`);
 }
 
-function updateManufacturerGet(req, res) {
-  res.render("manufacturers/edit");
+async function updateManufacturerGet(req, res) {
+  const { id } = req.params;
+
+  const manufacturer = await manufacturersModel.getManufacturerById(id);
+
+  if (!manufacturer) {
+    return res.status(404).send("Manufacturer not found");
+  }
+
+  res.render("manufacturers/edit", {
+    manufacturer,
+  });
 }
 
-function updateManufacturerPost(req, res) {
-  res.send("Update manufacturer POST - WIP");
+async function updateManufacturerPost(req, res) {
+  const { id } = req.params;
+
+  const manufacturer = await manufacturersModel.updateManufacturer(
+    id,
+    req.body,
+  );
+
+  if (!manufacturer) {
+    return res.status(404).send("Manufacturer not found");
+  }
+
+  res.redirect(`/manufacturers/${manufacturer.id}`);
 }
 
-function deleteManufacturerPost(req, res) {
-  res.send("Delete manufacturer POST - WIP");
+async function deleteManufacturerPost(req, res) {
+  const { id } = req.params;
+
+  try {
+    const deletedManufacturer = await manufacturersModel.deleteManufacturer(id);
+
+    if (!deletedManufacturer) {
+      return res.status(404).send("Manufacturer not found");
+    }
+
+    return res.redirect("/manufacturers");
+  } catch (error) {
+    console.log("ERROR CODE:", error.code);
+    console.log("ERROR MESSAGE:", error.message);
+
+    if (error.code === "23503") {
+      return res
+        .status(400)
+        .send(
+          "Cannot delete this manufacturer because it still has items assigned to it. Delete or move those items first.",
+        );
+    }
+
+    return res
+      .status(500)
+      .send("Something went wrong deleting the manufacturer.");
+  }
 }
 
 module.exports = {

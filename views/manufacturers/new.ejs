@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Manufacturer | PC Parts Inventory</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Add Manufacturer</h1>
+      <p>Create a new manufacturer for inventory items.</p>
+
+      <div class="page-actions">
+        <a class="button secondary" href="/manufacturers"
+          >Back to Manufacturers</a
+        >
+        <a class="button secondary" href="/">Home</a>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2>Manufacturer Details</h2>
+
+        <form action="/manufacturers/new" method="POST">
+          <label>
+            Name
+            <input
+              type="text"
+              name="name"
+              required
+              maxlength="100"
+              placeholder="Gigabyte"
+            />
+          </label>
+
+          <label>
+            Website URL
+            <input
+              type="url"
+              name="website_url"
+              placeholder="https://www.gigabyte.com"
+            />
+          </label>
+
+          <label>
+            Country
+            <input
+              type="text"
+              name="country"
+              maxlength="100"
+              placeholder="Taiwan"
+            />
+          </label>
+
+          <label>
+            Description
+            <textarea
+              name="description"
+              placeholder="Short description of the manufacturer"
+            ></textarea>
+          </label>
+
+          <button type="submit">Create Manufacturer</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

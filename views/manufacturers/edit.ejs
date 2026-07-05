@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit <%= manufacturer.name %> | PC Parts Inventory</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Edit Manufacturer</h1>
+      <p>Update manufacturer details.</p>
+
+      <div class="page-actions">
+        <a class="button secondary" href="/manufacturers/<%= manufacturer.id %>"
+          >Back to Manufacturer</a
+        >
+        <a class="button secondary" href="/manufacturers"
+          >Back to Manufacturers</a
+        >
+        <a class="button secondary" href="/">Home</a>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <h2><%= manufacturer.name %></h2>
+
+        <form action="/manufacturers/<%= manufacturer.id %>/edit" method="POST">
+          <label>
+            Name
+            <input
+              type="text"
+              name="name"
+              required
+              maxlength="100"
+              value="<%= manufacturer.name %>"
+            />
+          </label>
+
+          <label>
+            Website URL
+            <input
+              type="url"
+              name="website_url"
+              value="<%= manufacturer.website_url || '' %>"
+              placeholder="https://www.example.com"
+            />
+          </label>
+
+          <label>
+            Country
+            <input
+              type="text"
+              name="country"
+              maxlength="100"
+              value="<%= manufacturer.country || '' %>"
+              placeholder="Taiwan"
+            />
+          </label>
+
+          <label>
+            Description
+            <textarea
+              name="description"
+              placeholder="Short description of the manufacturer"
+            >
+<%= manufacturer.description || '' %></textarea
+            >
+          </label>
+
+          <button type="submit">Update Manufacturer</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
