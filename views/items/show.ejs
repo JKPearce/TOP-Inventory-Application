@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= item.name %> | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1><%= item.name %></h1>
+
+    <p class="meta">
+      <%= item.manufacturer_name %>
+      <% if (item.model) { %>
+        · <%= item.model %>
+      <% } %>
+    </p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/items">Back to Items</a>
+      <a class="button secondary" href="/categories/<%= item.category_id %>">View Category</a>
+      <a class="button secondary" href="/manufacturers/<%= item.manufacturer_id %>">View Manufacturer</a>
+      <a class="button" href="/items/<%= item.id %>/edit">Edit Item</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Item Details</h2>
+
+      <% if (item.image_url) { %>
+        <img src="<%= item.image_url %>" alt="<%= item.name %>">
+      <% } %>
+
+      <table>
+        <tbody>
+          <tr>
+            <th>Category</th>
+            <td><%= item.category_name %></td>
+          </tr>
+
+          <tr>
+            <th>Manufacturer</th>
+            <td><%= item.manufacturer_name %></td>
+          </tr>
+
+          <% if (item.model) { %>
+            <tr>
+              <th>Model</th>
+              <td><%= item.model %></td>
+            </tr>
+          <% } %>
+
+          <tr>
+            <th>SKU</th>
+            <td><%= item.sku %></td>
+          </tr>
+
+          <tr>
+            <th>Price</th>
+            <td>$<%= Number(item.price).toFixed(2) %></td>
+          </tr>
+
+          <tr>
+            <th>Stock</th>
+            <td><%= item.stock_quantity %></td>
+          </tr>
+
+          <tr>
+            <th>Status</th>
+            <td>
+              <% if (item.is_active) { %>
+                <span class="badge">Active</span>
+              <% } else { %>
+                <span class="badge">Inactive</span>
+              <% } %>
+            </td>
+          </tr>
+
+          <% if (item.description) { %>
+            <tr>
+              <th>Description</th>
+              <td><%= item.description %></td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Danger Zone</h2>
+
+      <form action="/items/<%= item.id %>/delete" method="POST">
+        <button class="danger" type="submit">Delete Item</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

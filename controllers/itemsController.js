@@ -6,8 +6,18 @@ function listItems(req, res) {
   res.render("items/index");
 }
 
-function showItem(req, res) {
-  res.render("items/show");
+async function showItem(req, res) {
+  const { id } = req.params;
+
+  const item = await itemsModel.getItemById(id);
+
+  if (!item) {
+    return res.status(404).send("Item not found");
+  }
+
+  res.render("items/show", {
+    item,
+  });
 }
 
 async function createItemGet(req, res) {
