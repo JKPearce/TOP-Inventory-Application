@@ -1,5 +1,11 @@
-function listCategories(req, res) {
-  res.render("categories/index");
+const categoriesModel = require("../models/categoriesModel");
+
+async function listCategories(req, res) {
+  const categories = await categoriesModel.getAllCategories();
+
+  res.render("categories/index", {
+    categories,
+  });
 }
 
 function showCategory(req, res) {

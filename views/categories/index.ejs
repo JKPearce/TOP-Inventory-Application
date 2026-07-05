@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>Categories</h1>
+    <p>Browse inventory by product category.</p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/">Home</a>
+      <a class="button" href="/categories/new">Add Category</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>All Categories</h2>
+
+      <% if (categories && categories.length > 0) { %>
+        <ul class="category-list">
+          <% categories.forEach((category) => { %>
+            <li>
+              <a class="card-link" href="/categories/<%= category.id %>">
+                <h3><%= category.name %></h3>
+
+                <% if (category.description) { %>
+                  <p><%= category.description %></p>
+                <% } else { %>
+                  <p class="meta">No description provided.</p>
+                <% } %>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="empty-state">No categories found.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>
