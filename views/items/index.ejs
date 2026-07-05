@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Items | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>Items</h1>
+    <p>Browse all inventory items.</p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/">Home</a>
+      <a class="button" href="/items/new">Add Item</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>All Items</h2>
+
+      <% if (items && items.length > 0) { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Manufacturer</th>
+              <th>SKU</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% items.forEach((item) => { %>
+              <tr>
+                <td>
+                  <a href="/items/<%= item.id %>">
+                    <strong><%= item.name %></strong>
+                  </a>
+
+                  <% if (item.model) { %>
+                    <div class="meta"><%= item.model %></div>
+                  <% } %>
+                </td>
+
+                <td>
+                  <a href="/categories/<%= item.category_id %>">
+                    <%= item.category_name %>
+                  </a>
+                </td>
+
+                <td>
+                  <a href="/manufacturers/<%= item.manufacturer_id %>">
+                    <%= item.manufacturer_name %>
+                  </a>
+                </td>
+
+                <td><%= item.sku %></td>
+
+                <td>$<%= Number(item.price).toFixed(2) %></td>
+
+                <td><%= item.stock_quantity %></td>
+
+                <td>
+                  <% if (item.is_active) { %>
+                    <span class="badge">Active</span>
+                  <% } else { %>
+                    <span class="badge">Inactive</span>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p class="empty-state">No items found.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

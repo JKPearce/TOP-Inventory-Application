@@ -2,8 +2,12 @@ const itemsModel = require("../models/itemsModel");
 const categoriesModel = require("../models/categoriesModel");
 const manufacturersModel = require("../models/manufacturersModel");
 
-function listItems(req, res) {
-  res.render("items/index");
+async function listItems(req, res) {
+  const items = await itemsModel.getAllItems();
+
+  res.render("items/index", {
+    items,
+  });
 }
 
 async function showItem(req, res) {

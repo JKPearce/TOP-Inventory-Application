@@ -1,5 +1,28 @@
 const pool = require("../db/pool");
 
+async function getAllItems() {
+  const { rows } = await pool.query(`
+    SELECT
+      items.id,
+      items.category_id,
+      items.manufacturer_id,
+      items.name,
+      items.model,
+      items.sku,
+      items.price,
+      items.stock_quantity,
+      items.is_active,
+      categories.name AS category_name,
+      manufacturers.name AS manufacturer_name
+    FROM items
+    JOIN categories ON items.category_id = categories.id
+    JOIN manufacturers ON items.manufacturer_id = manufacturers.id
+    ORDER BY items.name ASC
+  `);
+
+  return rows;
+}
+
 async function getItemsByCategoryId(categoryId) {
   const { rows } = await pool.query(
     `
@@ -99,4 +122,5 @@ module.exports = {
   getItemsByCategoryId,
   createItem,
   getItemById,
+  getAllItems,
 };
