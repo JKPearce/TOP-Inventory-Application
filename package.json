@@ -1,0 +1,31 @@
+{
+  "name": "top-inventory-application",
+  "version": "1.0.0",
+  "description": "The Odin Project Inventory Application project to solidify Express.js and PostgreSQL skills.",
+  "main": "index.js",
+  "scripts": {
+  "dev": "nodemon app.js",
+  "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JKPearce/TOP-Inventory-Application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/JKPearce/TOP-Inventory-Application/issues"
+  },
+  "homepage": "https://github.com/JKPearce/TOP-Inventory-Application#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
