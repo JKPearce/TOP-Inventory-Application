@@ -1,3 +1,7 @@
+const itemsModel = require("../models/itemsModel");
+const categoriesModel = require("../models/categoriesModel");
+const manufacturersModel = require("../models/manufacturersModel");
+
 function listItems(req, res) {
   res.render("items/index");
 }
@@ -6,12 +10,20 @@ function showItem(req, res) {
   res.render("items/show");
 }
 
-function createItemGet(req, res) {
-  res.render("items/new");
+async function createItemGet(req, res) {
+  const categories = await categoriesModel.getAllCategories();
+  const manufacturers = await manufacturersModel.getAllManufacturers();
+
+  res.render("items/new", {
+    categories,
+    manufacturers,
+  });
 }
 
-function createItemPost(req, res) {
-  res.send("Create item POST - WIP");
+async function createItemPost(req, res) {
+  const item = await itemsModel.createItem(req.body);
+
+  res.redirect(`/items/${item.id}`);
 }
 
 function updateItemGet(req, res) {

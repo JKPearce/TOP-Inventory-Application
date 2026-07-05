@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Item | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>Add Item</h1>
+    <p>Create a new inventory item.</p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/items">Back to Items</a>
+      <a class="button secondary" href="/">Home</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Item Details</h2>
+
+      <form action="/items/new" method="POST">
+        <label>
+          Category
+          <select name="category_id" required>
+            <option value="">Select a category</option>
+            <% categories.forEach((category) => { %>
+              <option value="<%= category.id %>"><%= category.name %></option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label>
+          Manufacturer
+          <select name="manufacturer_id" required>
+            <option value="">Select a manufacturer</option>
+            <% manufacturers.forEach((manufacturer) => { %>
+              <option value="<%= manufacturer.id %>"><%= manufacturer.name %></option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            required
+            maxlength="150"
+            placeholder="Ryzen 7 7800X3D"
+          >
+        </label>
+
+        <label>
+          Model
+          <input
+            type="text"
+            name="model"
+            maxlength="100"
+            placeholder="7800X3D"
+          >
+        </label>
+
+        <label>
+          SKU
+          <input
+            type="text"
+            name="sku"
+            required
+            maxlength="100"
+            placeholder="CPU-AMD-7800X3D"
+          >
+        </label>
+
+        <label>
+          Description
+          <textarea
+            name="description"
+            placeholder="Short product description"
+          ></textarea>
+        </label>
+
+        <label>
+          Price
+          <input
+            type="number"
+            name="price"
+            required
+            min="0"
+            step="0.01"
+            value="0.00"
+          >
+        </label>
+
+        <label>
+          Stock Quantity
+          <input
+            type="number"
+            name="stock_quantity"
+            required
+            min="0"
+            step="1"
+            value="0"
+          >
+        </label>
+
+        <button type="submit">Create Item</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
