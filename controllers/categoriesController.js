@@ -1,4 +1,5 @@
 const categoriesModel = require("../models/categoriesModel");
+const itemsModel = require("../models/itemsModel");
 
 async function listCategories(req, res) {
   const categories = await categoriesModel.getAllCategories();
@@ -8,8 +9,21 @@ async function listCategories(req, res) {
   });
 }
 
-function showCategory(req, res) {
-  res.render("categories/show");
+async function showCategory(req, res) {
+  const { id } = req.params;
+
+  const category = await categoriesModel.getCategoryById(id);
+
+  if (!category) {
+    return res.status(404).send("Category not found");
+  }
+
+  const items = await itemsModel.getItemsByCategoryId(id);
+
+  res.render("categories/show", {
+    category,
+    items,
+  });
 }
 
 function createCategoryGet(req, res) {

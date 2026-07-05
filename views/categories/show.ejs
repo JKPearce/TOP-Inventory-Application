@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= category.name %> | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1><%= category.name %></h1>
+
+    <% if (category.description) { %>
+      <p><%= category.description %></p>
+    <% } else { %>
+      <p class="meta">No description provided.</p>
+    <% } %>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/categories">Back to Categories</a>
+      <a class="button secondary" href="/">Home</a>
+      <a class="button" href="/items/new">Add Item</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Items in <%= category.name %></h2>
+
+      <% if (items && items.length > 0) { %>
+        <ul class="item-list">
+          <% items.forEach((item) => { %>
+            <li>
+              <a class="card-link" href="/items/<%= item.id %>">
+                <h3><%= item.name %></h3>
+
+                <p class="meta">
+                  <%= item.manufacturer_name %>
+                  <% if (item.model) { %>
+                    · <%= item.model %>
+                  <% } %>
+                </p>
+
+                <p>
+                  $<%= Number(item.price).toFixed(2) %>
+                  · Stock: <%= item.stock_quantity %>
+                </p>
+
+                <% if (!item.is_active) { %>
+                  <span class="badge">Inactive</span>
+                <% } %>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="empty-state">No items found in this category.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>
