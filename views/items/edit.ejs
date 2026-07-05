@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit <%= item.name %> | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>Edit Item</h1>
+    <p>Update inventory item details.</p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/items/<%= item.id %>">Back to Item</a>
+      <a class="button secondary" href="/items">Back to Items</a>
+      <a class="button secondary" href="/">Home</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2><%= item.name %></h2>
+
+      <form action="/items/<%= item.id %>/edit" method="POST">
+        <label>
+          Category
+          <select name="category_id" required>
+            <% categories.forEach((category) => { %>
+              <option
+                value="<%= category.id %>"
+                <%= Number(category.id) === Number(item.category_id) ? "selected" : "" %>
+              >
+                <%= category.name %>
+              </option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label>
+          Manufacturer
+          <select name="manufacturer_id" required>
+            <% manufacturers.forEach((manufacturer) => { %>
+              <option
+                value="<%= manufacturer.id %>"
+                <%= Number(manufacturer.id) === Number(item.manufacturer_id) ? "selected" : "" %>
+              >
+                <%= manufacturer.name %>
+              </option>
+            <% }) %>
+          </select>
+        </label>
+
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            required
+            maxlength="150"
+            value="<%= item.name %>"
+          >
+        </label>
+
+        <label>
+          Model
+          <input
+            type="text"
+            name="model"
+            maxlength="100"
+            value="<%= item.model || '' %>"
+          >
+        </label>
+
+        <label>
+          SKU
+          <input
+            type="text"
+            name="sku"
+            required
+            maxlength="100"
+            value="<%= item.sku %>"
+          >
+        </label>
+
+        <label>
+          Description
+          <textarea
+            name="description"
+            placeholder="Item description"
+          ><%= item.description || '' %></textarea>
+        </label>
+
+        <label>
+          Price
+          <input
+            type="number"
+            name="price"
+            required
+            min="0"
+            step="0.01"
+            value="<%= item.price %>"
+          >
+        </label>
+
+        <label>
+          Stock Quantity
+          <input
+            type="number"
+            name="stock_quantity"
+            required
+            min="0"
+            step="1"
+            value="<%= item.stock_quantity %>"
+          >
+        </label>
+
+        <label>
+          Image URL
+          <input
+            type="url"
+            name="image_url"
+            value="<%= item.image_url || '' %>"
+            placeholder="https://example.com/image.jpg"
+          >
+        </label>
+
+        <label>
+          <input
+            type="checkbox"
+            name="is_active"
+            <%= item.is_active ? "checked" : "" %>
+          >
+          Active item
+        </label>
+
+        <button type="submit">Update Item</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

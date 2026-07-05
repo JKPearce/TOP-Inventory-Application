@@ -40,16 +40,47 @@ async function createItemPost(req, res) {
   res.redirect(`/items/${item.id}`);
 }
 
-function updateItemGet(req, res) {
-  res.render("items/edit");
+async function updateItemGet(req, res) {
+  const { id } = req.params;
+
+  const item = await itemsModel.getItemById(id);
+
+  if (!item) {
+    return res.status(404).send("Item not found");
+  }
+
+  const categories = await categoriesModel.getAllCategories();
+  const manufacturers = await manufacturersModel.getAllManufacturers();
+
+  res.render("items/edit", {
+    item,
+    categories,
+    manufacturers,
+  });
 }
 
-function updateItemPost(req, res) {
-  res.send("Update item POST - WIP");
+async function updateItemPost(req, res) {
+  const { id } = req.params;
+
+  const item = await itemsModel.updateItem(id, req.body);
+
+  if (!item) {
+    return res.status(404).send("Item not found");
+  }
+
+  res.redirect(`/items/${item.id}`);
 }
 
-function deleteItemPost(req, res) {
-  res.send("Delete item POST - WIP");
+async function deleteItemPost(req, res) {
+  const { id } = req.params;
+
+  const deletedItem = await itemsModel.deleteItem(id);
+
+  if (!deletedItem) {
+    return res.status(404).send("Item not found");
+  }
+
+  res.redirect("/items");
 }
 
 module.exports = {

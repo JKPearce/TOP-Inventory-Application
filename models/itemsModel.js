@@ -145,10 +145,76 @@ async function getItemById(id) {
   return rows[0];
 }
 
+async function updateItem(
+  id,
+  {
+    category_id,
+    manufacturer_id,
+    name,
+    model,
+    sku,
+    description,
+    price,
+    stock_quantity,
+    image_url,
+    is_active,
+  },
+) {
+  const { rows } = await pool.query(
+    `
+    UPDATE items
+    SET
+      category_id = $1,
+      manufacturer_id = $2,
+      name = $3,
+      model = $4,
+      sku = $5,
+      description = $6,
+      price = $7,
+      stock_quantity = $8,
+      image_url = $9,
+      is_active = $10,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = $11
+    RETURNING id
+    `,
+    [
+      category_id,
+      manufacturer_id,
+      name,
+      model || null,
+      sku,
+      description || null,
+      price,
+      stock_quantity,
+      image_url || null,
+      is_active === "on",
+      id,
+    ],
+  );
+
+  return rows[0];
+}
+
+async function deleteItem(id) {
+  const { rows } = await pool.query(
+    `
+    DELETE FROM items
+    WHERE id = $1
+    RETURNING id
+    `,
+    [id],
+  );
+
+  return rows[0];
+}
+
 module.exports = {
   getItemsByCategoryId,
   createItem,
   getItemById,
   getAllItems,
   getItemsByManufacturerId,
+  deleteItem,
+  updateItem,
 };
