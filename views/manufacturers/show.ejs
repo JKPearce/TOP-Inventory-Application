@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= manufacturer.name %> | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1><%= manufacturer.name %></h1>
+
+    <% if (manufacturer.country) { %>
+      <p class="meta"><%= manufacturer.country %></p>
+    <% } %>
+
+    <% if (manufacturer.description) { %>
+      <p><%= manufacturer.description %></p>
+    <% } else { %>
+      <p class="meta">No description provided.</p>
+    <% } %>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/manufacturers">Back to Manufacturers</a>
+      <a class="button secondary" href="/">Home</a>
+      <a class="button" href="/items/new">Add Item</a>
+      <a class="button" href="/manufacturers/<%= manufacturer.id %>/edit">Edit Manufacturer</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Manufacturer Details</h2>
+
+      <table>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <td><%= manufacturer.name %></td>
+          </tr>
+
+          <% if (manufacturer.country) { %>
+            <tr>
+              <th>Country</th>
+              <td><%= manufacturer.country %></td>
+            </tr>
+          <% } %>
+
+          <% if (manufacturer.website_url) { %>
+            <tr>
+              <th>Website</th>
+              <td>
+                <a href="<%= manufacturer.website_url %>" target="_blank" rel="noopener noreferrer">
+                  <%= manufacturer.website_url %>
+                </a>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Items by <%= manufacturer.name %></h2>
+
+      <% if (items && items.length > 0) { %>
+        <ul class="item-list">
+          <% items.forEach((item) => { %>
+            <li>
+              <a class="card-link" href="/items/<%= item.id %>">
+                <h3><%= item.name %></h3>
+
+                <p class="meta">
+                  <%= item.category_name %>
+                  <% if (item.model) { %>
+                    · <%= item.model %>
+                  <% } %>
+                </p>
+
+                <p>
+                  $<%= Number(item.price).toFixed(2) %>
+                  · Stock: <%= item.stock_quantity %>
+                </p>
+
+                <% if (!item.is_active) { %>
+                  <span class="badge">Inactive</span>
+                <% } %>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="empty-state">No items found for this manufacturer.</p>
+      <% } %>
+    </section>
+
+    <section>
+      <h2>Danger Zone</h2>
+
+      <form action="/manufacturers/<%= manufacturer.id %>/delete" method="POST">
+        <button class="danger" type="submit">Delete Manufacturer</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

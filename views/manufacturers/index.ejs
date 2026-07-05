@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manufacturers | PC Parts Inventory</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header>
+    <h1>Manufacturers</h1>
+    <p>Browse inventory by manufacturer.</p>
+
+    <div class="page-actions">
+      <a class="button secondary" href="/">Home</a>
+      <a class="button" href="/manufacturers/new">Add Manufacturer</a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>All Manufacturers</h2>
+
+      <% if (manufacturers && manufacturers.length > 0) { %>
+        <ul class="manufacturer-list">
+          <% manufacturers.forEach((manufacturer) => { %>
+            <li>
+              <a class="card-link" href="/manufacturers/<%= manufacturer.id %>">
+                <h3><%= manufacturer.name %></h3>
+
+                <% if (manufacturer.country) { %>
+                  <p class="meta"><%= manufacturer.country %></p>
+                <% } %>
+
+                <% if (manufacturer.description) { %>
+                  <p><%= manufacturer.description %></p>
+                <% } else { %>
+                  <p class="meta">No description provided.</p>
+                <% } %>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <p class="empty-state">No manufacturers found.</p>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

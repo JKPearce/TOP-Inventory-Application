@@ -48,6 +48,33 @@ async function getItemsByCategoryId(categoryId) {
   return rows;
 }
 
+async function getItemsByManufacturerId(manufacturerId) {
+  const { rows } = await pool.query(
+    `
+    SELECT
+      items.id,
+      items.category_id,
+      items.manufacturer_id,
+      items.name,
+      items.model,
+      items.sku,
+      items.description,
+      items.price,
+      items.stock_quantity,
+      items.image_url,
+      items.is_active,
+      categories.name AS category_name
+    FROM items
+    JOIN categories ON items.category_id = categories.id
+    WHERE items.manufacturer_id = $1
+    ORDER BY items.name ASC
+    `,
+    [manufacturerId],
+  );
+
+  return rows;
+}
+
 async function createItem({
   category_id,
   manufacturer_id,
@@ -123,4 +150,5 @@ module.exports = {
   createItem,
   getItemById,
   getAllItems,
+  getItemsByManufacturerId,
 };
