@@ -1,16 +1,20 @@
 # TOP-Inventory-Application
+
 The Odin Project Inventory Application project to solidify Express.js and PostgreSQL skills.
 
 ## Project Idea
+
 A PC Parts inventory application where users can browse inventory by category and manage both categories and items with full CRUD functionality.
 
 ## Database Plan for PostgreSQL
+
 The database will be centered around two main tables:
 
 - categories: stores the inventory groups such as CPU, GPU, Motherboard, RAM, Storage, Power Supply, Case, Cooling, and Accessories.
 - items: stores the individual products that belong to a category.
 
 ### 1. categories table
+
 This table holds the top-level product groups.
 
 ```sql
@@ -24,6 +28,7 @@ CREATE TABLE categories (
 ```
 
 ### 2. items table
+
 This table holds each inventory item and links it to a category.
 
 ```sql
@@ -43,6 +48,21 @@ CREATE TABLE items (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
+
+### 3. manufacturers table
+
+Stores product manufacturers such as AMD, Intel, NVIDIA, ASUS, MSI, Corsair, and Samsung.
+
+````sql
+CREATE TABLE manufacturers (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  website_url TEXT,
+  country VARCHAR(100),
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 - sku: unique stock keeping unit used to identify the item in inventory.
 
@@ -69,9 +89,10 @@ Categories cannot be deleted while they still contain items. Items must be delet
 ### Useful Index
 ```sql
 CREATE INDEX idx_items_category_id ON items(category_id);
-```
+````
 
 ### Example Seed Data
+
 ```sql
 INSERT INTO categories (name, description) VALUES
 ('CPU', 'Central processing units'),
@@ -80,6 +101,7 @@ INSERT INTO categories (name, description) VALUES
 ```
 
 This structure will support the core app flow:
+
 1. View categories on the home page.
 2. Click a category to see all matching items.
 3. Create, read, update, and delete both categories and items.
@@ -87,9 +109,11 @@ This structure will support the core app flow:
 ## Routes Plan
 
 ### Home
+
 - GET / - show all categories
 
 ### Categories
+
 - GET /categories - list all categories
 - GET /categories/new - show create category form
 - POST /categories/new - create category
@@ -99,6 +123,7 @@ This structure will support the core app flow:
 - POST /categories/:id/delete - delete category if it has no items
 
 ### Items
+
 - GET /items - list all items
 - GET /items/new - show create item form
 - POST /items/new - create item
